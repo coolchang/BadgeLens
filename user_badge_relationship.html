@@ -1,0 +1,258 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 750px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "skyblue", "font": {"color": "white"}, "id": "U001", "label": "U001", "shape": "dot", "title": "User: U001"}, {"color": "orange", "font": {"color": "white"}, "id": "B100", "label": "B100", "shape": "dot", "title": "Badge: B100"}, {"color": "orange", "font": {"color": "white"}, "id": "B003", "label": "B003", "shape": "dot", "title": "Badge: B003"}, {"color": "orange", "font": {"color": "white"}, "id": "B057", "label": "B057", "shape": "dot", "title": "Badge: B057"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U002", "label": "U002", "shape": "dot", "title": "User: U002"}, {"color": "orange", "font": {"color": "white"}, "id": "B008", "label": "B008", "shape": "dot", "title": "Badge: B008"}, {"color": "orange", "font": {"color": "white"}, "id": "B074", "label": "B074", "shape": "dot", "title": "Badge: B074"}, {"color": "orange", "font": {"color": "white"}, "id": "B093", "label": "B093", "shape": "dot", "title": "Badge: B093"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U003", "label": "U003", "shape": "dot", "title": "User: U003"}, {"color": "orange", "font": {"color": "white"}, "id": "B075", "label": "B075", "shape": "dot", "title": "Badge: B075"}, {"color": "orange", "font": {"color": "white"}, "id": "B053", "label": "B053", "shape": "dot", "title": "Badge: B053"}, {"color": "orange", "font": {"color": "white"}, "id": "B099", "label": "B099", "shape": "dot", "title": "Badge: B099"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U004", "label": "U004", "shape": "dot", "title": "User: U004"}, {"color": "orange", "font": {"color": "white"}, "id": "B078", "label": "B078", "shape": "dot", "title": "Badge: B078"}, {"color": "orange", "font": {"color": "white"}, "id": "B013", "label": "B013", "shape": "dot", "title": "Badge: B013"}, {"color": "orange", "font": {"color": "white"}, "id": "B018", "label": "B018", "shape": "dot", "title": "Badge: B018"}, {"color": "orange", "font": {"color": "white"}, "id": "B084", "label": "B084", "shape": "dot", "title": "Badge: B084"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U005", "label": "U005", "shape": "dot", "title": "User: U005"}, {"color": "orange", "font": {"color": "white"}, "id": "B010", "label": "B010", "shape": "dot", "title": "Badge: B010"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U006", "label": "U006", "shape": "dot", "title": "User: U006"}, {"color": "orange", "font": {"color": "white"}, "id": "B037", "label": "B037", "shape": "dot", "title": "Badge: B037"}, {"color": "orange", "font": {"color": "white"}, "id": "B014", "label": "B014", "shape": "dot", "title": "Badge: B014"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U007", "label": "U007", "shape": "dot", "title": "User: U007"}, {"color": "orange", "font": {"color": "white"}, "id": "B061", "label": "B061", "shape": "dot", "title": "Badge: B061"}, {"color": "orange", "font": {"color": "white"}, "id": "B073", "label": "B073", "shape": "dot", "title": "Badge: B073"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U008", "label": "U008", "shape": "dot", "title": "User: U008"}, {"color": "orange", "font": {"color": "white"}, "id": "B020", "label": "B020", "shape": "dot", "title": "Badge: B020"}, {"color": "orange", "font": {"color": "white"}, "id": "B030", "label": "B030", "shape": "dot", "title": "Badge: B030"}, {"color": "orange", "font": {"color": "white"}, "id": "B051", "label": "B051", "shape": "dot", "title": "Badge: B051"}, {"color": "orange", "font": {"color": "white"}, "id": "B094", "label": "B094", "shape": "dot", "title": "Badge: B094"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U009", "label": "U009", "shape": "dot", "title": "User: U009"}, {"color": "orange", "font": {"color": "white"}, "id": "B047", "label": "B047", "shape": "dot", "title": "Badge: B047"}, {"color": "orange", "font": {"color": "white"}, "id": "B054", "label": "B054", "shape": "dot", "title": "Badge: B054"}, {"color": "orange", "font": {"color": "white"}, "id": "B059", "label": "B059", "shape": "dot", "title": "Badge: B059"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U010", "label": "U010", "shape": "dot", "title": "User: U010"}, {"color": "orange", "font": {"color": "white"}, "id": "B092", "label": "B092", "shape": "dot", "title": "Badge: B092"}, {"color": "orange", "font": {"color": "white"}, "id": "B063", "label": "B063", "shape": "dot", "title": "Badge: B063"}, {"color": "orange", "font": {"color": "white"}, "id": "B065", "label": "B065", "shape": "dot", "title": "Badge: B065"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U011", "label": "U011", "shape": "dot", "title": "User: U011"}, {"color": "orange", "font": {"color": "white"}, "id": "B072", "label": "B072", "shape": "dot", "title": "Badge: B072"}, {"color": "orange", "font": {"color": "white"}, "id": "B002", "label": "B002", "shape": "dot", "title": "Badge: B002"}, {"color": "orange", "font": {"color": "white"}, "id": "B025", "label": "B025", "shape": "dot", "title": "Badge: B025"}, {"color": "orange", "font": {"color": "white"}, "id": "B085", "label": "B085", "shape": "dot", "title": "Badge: B085"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U012", "label": "U012", "shape": "dot", "title": "User: U012"}, {"color": "orange", "font": {"color": "white"}, "id": "B044", "label": "B044", "shape": "dot", "title": "Badge: B044"}, {"color": "orange", "font": {"color": "white"}, "id": "B021", "label": "B021", "shape": "dot", "title": "Badge: B021"}, {"color": "orange", "font": {"color": "white"}, "id": "B089", "label": "B089", "shape": "dot", "title": "Badge: B089"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U013", "label": "U013", "shape": "dot", "title": "User: U013"}, {"color": "orange", "font": {"color": "white"}, "id": "B005", "label": "B005", "shape": "dot", "title": "Badge: B005"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U014", "label": "U014", "shape": "dot", "title": "User: U014"}, {"color": "orange", "font": {"color": "white"}, "id": "B066", "label": "B066", "shape": "dot", "title": "Badge: B066"}, {"color": "orange", "font": {"color": "white"}, "id": "B097", "label": "B097", "shape": "dot", "title": "Badge: B097"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U015", "label": "U015", "shape": "dot", "title": "User: U015"}, {"color": "orange", "font": {"color": "white"}, "id": "B068", "label": "B068", "shape": "dot", "title": "Badge: B068"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U016", "label": "U016", "shape": "dot", "title": "User: U016"}, {"color": "orange", "font": {"color": "white"}, "id": "B077", "label": "B077", "shape": "dot", "title": "Badge: B077"}, {"color": "orange", "font": {"color": "white"}, "id": "B052", "label": "B052", "shape": "dot", "title": "Badge: B052"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U017", "label": "U017", "shape": "dot", "title": "User: U017"}, {"color": "orange", "font": {"color": "white"}, "id": "B031", "label": "B031", "shape": "dot", "title": "Badge: B031"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U018", "label": "U018", "shape": "dot", "title": "User: U018"}, {"color": "orange", "font": {"color": "white"}, "id": "B095", "label": "B095", "shape": "dot", "title": "Badge: B095"}, {"color": "orange", "font": {"color": "white"}, "id": "B081", "label": "B081", "shape": "dot", "title": "Badge: B081"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U019", "label": "U019", "shape": "dot", "title": "User: U019"}, {"color": "orange", "font": {"color": "white"}, "id": "B028", "label": "B028", "shape": "dot", "title": "Badge: B028"}, {"color": "orange", "font": {"color": "white"}, "id": "B011", "label": "B011", "shape": "dot", "title": "Badge: B011"}, {"color": "orange", "font": {"color": "white"}, "id": "B056", "label": "B056", "shape": "dot", "title": "Badge: B056"}, {"color": "orange", "font": {"color": "white"}, "id": "B049", "label": "B049", "shape": "dot", "title": "Badge: B049"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U020", "label": "U020", "shape": "dot", "title": "User: U020"}, {"color": "orange", "font": {"color": "white"}, "id": "B023", "label": "B023", "shape": "dot", "title": "Badge: B023"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U021", "label": "U021", "shape": "dot", "title": "User: U021"}, {"color": "orange", "font": {"color": "white"}, "id": "B039", "label": "B039", "shape": "dot", "title": "Badge: B039"}, {"color": "orange", "font": {"color": "white"}, "id": "B091", "label": "B091", "shape": "dot", "title": "Badge: B091"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U022", "label": "U022", "shape": "dot", "title": "User: U022"}, {"color": "orange", "font": {"color": "white"}, "id": "B082", "label": "B082", "shape": "dot", "title": "Badge: B082"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U023", "label": "U023", "shape": "dot", "title": "User: U023"}, {"color": "orange", "font": {"color": "white"}, "id": "B048", "label": "B048", "shape": "dot", "title": "Badge: B048"}, {"color": "orange", "font": {"color": "white"}, "id": "B086", "label": "B086", "shape": "dot", "title": "Badge: B086"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U024", "label": "U024", "shape": "dot", "title": "User: U024"}, {"color": "orange", "font": {"color": "white"}, "id": "B071", "label": "B071", "shape": "dot", "title": "Badge: B071"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U025", "label": "U025", "shape": "dot", "title": "User: U025"}, {"color": "orange", "font": {"color": "white"}, "id": "B032", "label": "B032", "shape": "dot", "title": "Badge: B032"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U026", "label": "U026", "shape": "dot", "title": "User: U026"}, {"color": "orange", "font": {"color": "white"}, "id": "B043", "label": "B043", "shape": "dot", "title": "Badge: B043"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U027", "label": "U027", "shape": "dot", "title": "User: U027"}, {"color": "orange", "font": {"color": "white"}, "id": "B038", "label": "B038", "shape": "dot", "title": "Badge: B038"}, {"color": "orange", "font": {"color": "white"}, "id": "B019", "label": "B019", "shape": "dot", "title": "Badge: B019"}, {"color": "orange", "font": {"color": "white"}, "id": "B062", "label": "B062", "shape": "dot", "title": "Badge: B062"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U028", "label": "U028", "shape": "dot", "title": "User: U028"}, {"color": "orange", "font": {"color": "white"}, "id": "B041", "label": "B041", "shape": "dot", "title": "Badge: B041"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U029", "label": "U029", "shape": "dot", "title": "User: U029"}, {"color": "orange", "font": {"color": "white"}, "id": "B022", "label": "B022", "shape": "dot", "title": "Badge: B022"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U030", "label": "U030", "shape": "dot", "title": "User: U030"}, {"color": "orange", "font": {"color": "white"}, "id": "B015", "label": "B015", "shape": "dot", "title": "Badge: B015"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U031", "label": "U031", "shape": "dot", "title": "User: U031"}, {"color": "orange", "font": {"color": "white"}, "id": "B090", "label": "B090", "shape": "dot", "title": "Badge: B090"}, {"color": "orange", "font": {"color": "white"}, "id": "B033", "label": "B033", "shape": "dot", "title": "Badge: B033"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U032", "label": "U032", "shape": "dot", "title": "User: U032"}, {"color": "orange", "font": {"color": "white"}, "id": "B026", "label": "B026", "shape": "dot", "title": "Badge: B026"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U033", "label": "U033", "shape": "dot", "title": "User: U033"}, {"color": "orange", "font": {"color": "white"}, "id": "B079", "label": "B079", "shape": "dot", "title": "Badge: B079"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U034", "label": "U034", "shape": "dot", "title": "User: U034"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U035", "label": "U035", "shape": "dot", "title": "User: U035"}, {"color": "orange", "font": {"color": "white"}, "id": "B046", "label": "B046", "shape": "dot", "title": "Badge: B046"}, {"color": "orange", "font": {"color": "white"}, "id": "B067", "label": "B067", "shape": "dot", "title": "Badge: B067"}, {"color": "orange", "font": {"color": "white"}, "id": "B060", "label": "B060", "shape": "dot", "title": "Badge: B060"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U036", "label": "U036", "shape": "dot", "title": "User: U036"}, {"color": "orange", "font": {"color": "white"}, "id": "B017", "label": "B017", "shape": "dot", "title": "Badge: B017"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U037", "label": "U037", "shape": "dot", "title": "User: U037"}, {"color": "orange", "font": {"color": "white"}, "id": "B024", "label": "B024", "shape": "dot", "title": "Badge: B024"}, {"color": "orange", "font": {"color": "white"}, "id": "B055", "label": "B055", "shape": "dot", "title": "Badge: B055"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U038", "label": "U038", "shape": "dot", "title": "User: U038"}, {"color": "orange", "font": {"color": "white"}, "id": "B076", "label": "B076", "shape": "dot", "title": "Badge: B076"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U039", "label": "U039", "shape": "dot", "title": "User: U039"}, {"color": "orange", "font": {"color": "white"}, "id": "B088", "label": "B088", "shape": "dot", "title": "Badge: B088"}, {"color": "orange", "font": {"color": "white"}, "id": "B087", "label": "B087", "shape": "dot", "title": "Badge: B087"}, {"color": "orange", "font": {"color": "white"}, "id": "B083", "label": "B083", "shape": "dot", "title": "Badge: B083"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U040", "label": "U040", "shape": "dot", "title": "User: U040"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U041", "label": "U041", "shape": "dot", "title": "User: U041"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U042", "label": "U042", "shape": "dot", "title": "User: U042"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U043", "label": "U043", "shape": "dot", "title": "User: U043"}, {"color": "orange", "font": {"color": "white"}, "id": "B034", "label": "B034", "shape": "dot", "title": "Badge: B034"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U044", "label": "U044", "shape": "dot", "title": "User: U044"}, {"color": "orange", "font": {"color": "white"}, "id": "B009", "label": "B009", "shape": "dot", "title": "Badge: B009"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U045", "label": "U045", "shape": "dot", "title": "User: U045"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U046", "label": "U046", "shape": "dot", "title": "User: U046"}, {"color": "orange", "font": {"color": "white"}, "id": "B096", "label": "B096", "shape": "dot", "title": "Badge: B096"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U047", "label": "U047", "shape": "dot", "title": "User: U047"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U048", "label": "U048", "shape": "dot", "title": "User: U048"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U049", "label": "U049", "shape": "dot", "title": "User: U049"}, {"color": "orange", "font": {"color": "white"}, "id": "B098", "label": "B098", "shape": "dot", "title": "Badge: B098"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U050", "label": "U050", "shape": "dot", "title": "User: U050"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U051", "label": "U051", "shape": "dot", "title": "User: U051"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U052", "label": "U052", "shape": "dot", "title": "User: U052"}, {"color": "orange", "font": {"color": "white"}, "id": "B080", "label": "B080", "shape": "dot", "title": "Badge: B080"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U053", "label": "U053", "shape": "dot", "title": "User: U053"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U054", "label": "U054", "shape": "dot", "title": "User: U054"}, {"color": "orange", "font": {"color": "white"}, "id": "B058", "label": "B058", "shape": "dot", "title": "Badge: B058"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U055", "label": "U055", "shape": "dot", "title": "User: U055"}, {"color": "orange", "font": {"color": "white"}, "id": "B006", "label": "B006", "shape": "dot", "title": "Badge: B006"}, {"color": "orange", "font": {"color": "white"}, "id": "B007", "label": "B007", "shape": "dot", "title": "Badge: B007"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U056", "label": "U056", "shape": "dot", "title": "User: U056"}, {"color": "orange", "font": {"color": "white"}, "id": "B004", "label": "B004", "shape": "dot", "title": "Badge: B004"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U057", "label": "U057", "shape": "dot", "title": "User: U057"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U058", "label": "U058", "shape": "dot", "title": "User: U058"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U059", "label": "U059", "shape": "dot", "title": "User: U059"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U060", "label": "U060", "shape": "dot", "title": "User: U060"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U061", "label": "U061", "shape": "dot", "title": "User: U061"}, {"color": "orange", "font": {"color": "white"}, "id": "B027", "label": "B027", "shape": "dot", "title": "Badge: B027"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U062", "label": "U062", "shape": "dot", "title": "User: U062"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U063", "label": "U063", "shape": "dot", "title": "User: U063"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U064", "label": "U064", "shape": "dot", "title": "User: U064"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U065", "label": "U065", "shape": "dot", "title": "User: U065"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U066", "label": "U066", "shape": "dot", "title": "User: U066"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U067", "label": "U067", "shape": "dot", "title": "User: U067"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U068", "label": "U068", "shape": "dot", "title": "User: U068"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U069", "label": "U069", "shape": "dot", "title": "User: U069"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U070", "label": "U070", "shape": "dot", "title": "User: U070"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U071", "label": "U071", "shape": "dot", "title": "User: U071"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U072", "label": "U072", "shape": "dot", "title": "User: U072"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U073", "label": "U073", "shape": "dot", "title": "User: U073"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U074", "label": "U074", "shape": "dot", "title": "User: U074"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U075", "label": "U075", "shape": "dot", "title": "User: U075"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U076", "label": "U076", "shape": "dot", "title": "User: U076"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U077", "label": "U077", "shape": "dot", "title": "User: U077"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U078", "label": "U078", "shape": "dot", "title": "User: U078"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U079", "label": "U079", "shape": "dot", "title": "User: U079"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U080", "label": "U080", "shape": "dot", "title": "User: U080"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U081", "label": "U081", "shape": "dot", "title": "User: U081"}, {"color": "orange", "font": {"color": "white"}, "id": "B036", "label": "B036", "shape": "dot", "title": "Badge: B036"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U082", "label": "U082", "shape": "dot", "title": "User: U082"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U083", "label": "U083", "shape": "dot", "title": "User: U083"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U084", "label": "U084", "shape": "dot", "title": "User: U084"}, {"color": "orange", "font": {"color": "white"}, "id": "B016", "label": "B016", "shape": "dot", "title": "Badge: B016"}, {"color": "orange", "font": {"color": "white"}, "id": "B012", "label": "B012", "shape": "dot", "title": "Badge: B012"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U085", "label": "U085", "shape": "dot", "title": "User: U085"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U086", "label": "U086", "shape": "dot", "title": "User: U086"}, {"color": "orange", "font": {"color": "white"}, "id": "B035", "label": "B035", "shape": "dot", "title": "Badge: B035"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U087", "label": "U087", "shape": "dot", "title": "User: U087"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U088", "label": "U088", "shape": "dot", "title": "User: U088"}, {"color": "orange", "font": {"color": "white"}, "id": "B050", "label": "B050", "shape": "dot", "title": "Badge: B050"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U089", "label": "U089", "shape": "dot", "title": "User: U089"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U090", "label": "U090", "shape": "dot", "title": "User: U090"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U091", "label": "U091", "shape": "dot", "title": "User: U091"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U092", "label": "U092", "shape": "dot", "title": "User: U092"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U093", "label": "U093", "shape": "dot", "title": "User: U093"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U094", "label": "U094", "shape": "dot", "title": "User: U094"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U095", "label": "U095", "shape": "dot", "title": "User: U095"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U096", "label": "U096", "shape": "dot", "title": "User: U096"}, {"color": "orange", "font": {"color": "white"}, "id": "B070", "label": "B070", "shape": "dot", "title": "Badge: B070"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U097", "label": "U097", "shape": "dot", "title": "User: U097"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U098", "label": "U098", "shape": "dot", "title": "User: U098"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U099", "label": "U099", "shape": "dot", "title": "User: U099"}, {"color": "skyblue", "font": {"color": "white"}, "id": "U100", "label": "U100", "shape": "dot", "title": "User: U100"}, {"color": "orange", "font": {"color": "white"}, "id": "B042", "label": "B042", "shape": "dot", "title": "Badge: B042"}]);
+                  edges = new vis.DataSet([{"from": "U001", "to": "B100"}, {"from": "U001", "to": "B003"}, {"from": "U001", "to": "B057"}, {"from": "U002", "to": "B008"}, {"from": "U002", "to": "B074"}, {"from": "U002", "to": "B093"}, {"from": "U003", "to": "B075"}, {"from": "U003", "to": "B053"}, {"from": "U003", "to": "B099"}, {"from": "U004", "to": "B078"}, {"from": "U004", "to": "B013"}, {"from": "U004", "to": "B018"}, {"from": "U004", "to": "B084"}, {"from": "U005", "to": "B010"}, {"from": "U005", "to": "B053"}, {"from": "U005", "to": "B078"}, {"from": "U006", "to": "B037"}, {"from": "U006", "to": "B014"}, {"from": "U006", "to": "B013"}, {"from": "U007", "to": "B057"}, {"from": "U007", "to": "B061"}, {"from": "U007", "to": "B014"}, {"from": "U007", "to": "B073"}, {"from": "U008", "to": "B020"}, {"from": "U008", "to": "B030"}, {"from": "U008", "to": "B051"}, {"from": "U008", "to": "B094"}, {"from": "U008", "to": "B093"}, {"from": "U009", "to": "B047"}, {"from": "U009", "to": "B054"}, {"from": "U009", "to": "B059"}, {"from": "U010", "to": "B092"}, {"from": "U010", "to": "B063"}, {"from": "U010", "to": "B018"}, {"from": "U010", "to": "B065"}, {"from": "U011", "to": "B072"}, {"from": "U011", "to": "B002"}, {"from": "U011", "to": "B075"}, {"from": "U011", "to": "B025"}, {"from": "U011", "to": "B085"}, {"from": "U012", "to": "B044"}, {"from": "U012", "to": "B003"}, {"from": "U012", "to": "B025"}, {"from": "U012", "to": "B021"}, {"from": "U012", "to": "B089"}, {"from": "U013", "to": "B005"}, {"from": "U013", "to": "B059"}, {"from": "U014", "to": "B073"}, {"from": "U014", "to": "B066"}, {"from": "U014", "to": "B097"}, {"from": "U014", "to": "B003"}, {"from": "U015", "to": "B068"}, {"from": "U016", "to": "B077"}, {"from": "U016", "to": "B018"}, {"from": "U016", "to": "B052"}, {"from": "U017", "to": "B031"}, {"from": "U018", "to": "B095"}, {"from": "U018", "to": "B081"}, {"from": "U018", "to": "B092"}, {"from": "U018", "to": "B066"}, {"from": "U019", "to": "B028"}, {"from": "U019", "to": "B011"}, {"from": "U019", "to": "B056"}, {"from": "U019", "to": "B078"}, {"from": "U019", "to": "B049"}, {"from": "U020", "to": "B013"}, {"from": "U020", "to": "B073"}, {"from": "U020", "to": "B077"}, {"from": "U020", "to": "B023"}, {"from": "U021", "to": "B013"}, {"from": "U021", "to": "B039"}, {"from": "U021", "to": "B091"}, {"from": "U022", "to": "B082"}, {"from": "U022", "to": "B005"}, {"from": "U022", "to": "B003"}, {"from": "U022", "to": "B011"}, {"from": "U022", "to": "B092"}, {"from": "U023", "to": "B048"}, {"from": "U023", "to": "B086"}, {"from": "U023", "to": "B095"}, {"from": "U023", "to": "B039"}, {"from": "U024", "to": "B048"}, {"from": "U024", "to": "B071"}, {"from": "U025", "to": "B032"}, {"from": "U025", "to": "B068"}, {"from": "U026", "to": "B043"}, {"from": "U027", "to": "B038"}, {"from": "U027", "to": "B019"}, {"from": "U027", "to": "B062"}, {"from": "U028", "to": "B041"}, {"from": "U029", "to": "B022"}, {"from": "U029", "to": "B054"}, {"from": "U029", "to": "B056"}, {"from": "U029", "to": "B025"}, {"from": "U030", "to": "B095"}, {"from": "U030", "to": "B061"}, {"from": "U030", "to": "B062"}, {"from": "U030", "to": "B015"}, {"from": "U031", "to": "B003"}, {"from": "U031", "to": "B090"}, {"from": "U031", "to": "B033"}, {"from": "U031", "to": "B066"}, {"from": "U031", "to": "B081"}, {"from": "U032", "to": "B026"}, {"from": "U032", "to": "B068"}, {"from": "U032", "to": "B010"}, {"from": "U033", "to": "B095"}, {"from": "U033", "to": "B079"}, {"from": "U033", "to": "B092"}, {"from": "U034", "to": "B048"}, {"from": "U034", "to": "B002"}, {"from": "U034", "to": "B026"}, {"from": "U035", "to": "B046"}, {"from": "U035", "to": "B067"}, {"from": "U035", "to": "B005"}, {"from": "U035", "to": "B060"}, {"from": "U036", "to": "B017"}, {"from": "U037", "to": "B011"}, {"from": "U037", "to": "B024"}, {"from": "U037", "to": "B041"}, {"from": "U037", "to": "B097"}, {"from": "U037", "to": "B055"}, {"from": "U038", "to": "B037"}, {"from": "U038", "to": "B090"}, {"from": "U038", "to": "B073"}, {"from": "U038", "to": "B076"}, {"from": "U038", "to": "B065"}, {"from": "U039", "to": "B088"}, {"from": "U039", "to": "B087"}, {"from": "U039", "to": "B066"}, {"from": "U039", "to": "B083"}, {"from": "U040", "to": "B020"}, {"from": "U041", "to": "B083"}, {"from": "U041", "to": "B092"}, {"from": "U041", "to": "B086"}, {"from": "U042", "to": "B017"}, {"from": "U043", "to": "B034"}, {"from": "U043", "to": "B048"}, {"from": "U043", "to": "B093"}, {"from": "U043", "to": "B051"}, {"from": "U043", "to": "B018"}, {"from": "U044", "to": "B026"}, {"from": "U044", "to": "B009"}, {"from": "U044", "to": "B010"}, {"from": "U044", "to": "B017"}, {"from": "U044", "to": "B046"}, {"from": "U045", "to": "B055"}, {"from": "U045", "to": "B023"}, {"from": "U045", "to": "B074"}, {"from": "U045", "to": "B099"}, {"from": "U046", "to": "B096"}, {"from": "U047", "to": "B056"}, {"from": "U047", "to": "B077"}, {"from": "U048", "to": "B075"}, {"from": "U048", "to": "B030"}, {"from": "U049", "to": "B062"}, {"from": "U049", "to": "B098"}, {"from": "U049", "to": "B087"}, {"from": "U050", "to": "B081"}, {"from": "U051", "to": "B030"}, {"from": "U051", "to": "B087"}, {"from": "U051", "to": "B028"}, {"from": "U051", "to": "B015"}, {"from": "U052", "to": "B100"}, {"from": "U052", "to": "B080"}, {"from": "U052", "to": "B071"}, {"from": "U052", "to": "B018"}, {"from": "U053", "to": "B072"}, {"from": "U053", "to": "B030"}, {"from": "U053", "to": "B037"}, {"from": "U054", "to": "B043"}, {"from": "U054", "to": "B084"}, {"from": "U054", "to": "B013"}, {"from": "U054", "to": "B058"}, {"from": "U055", "to": "B081"}, {"from": "U055", "to": "B052"}, {"from": "U055", "to": "B006"}, {"from": "U055", "to": "B007"}, {"from": "U056", "to": "B020"}, {"from": "U056", "to": "B004"}, {"from": "U056", "to": "B055"}, {"from": "U056", "to": "B060"}, {"from": "U057", "to": "B074"}, {"from": "U057", "to": "B060"}, {"from": "U057", "to": "B025"}, {"from": "U057", "to": "B086"}, {"from": "U058", "to": "B091"}, {"from": "U058", "to": "B057"}, {"from": "U059", "to": "B044"}, {"from": "U059", "to": "B051"}, {"from": "U059", "to": "B030"}, {"from": "U059", "to": "B067"}, {"from": "U060", "to": "B004"}, {"from": "U061", "to": "B099"}, {"from": "U061", "to": "B027"}, {"from": "U061", "to": "B091"}, {"from": "U062", "to": "B009"}, {"from": "U063", "to": "B056"}, {"from": "U063", "to": "B046"}, {"from": "U063", "to": "B032"}, {"from": "U063", "to": "B090"}, {"from": "U064", "to": "B083"}, {"from": "U064", "to": "B032"}, {"from": "U065", "to": "B054"}, {"from": "U065", "to": "B010"}, {"from": "U065", "to": "B021"}, {"from": "U066", "to": "B076"}, {"from": "U066", "to": "B083"}, {"from": "U066", "to": "B072"}, {"from": "U067", "to": "B092"}, {"from": "U068", "to": "B003"}, {"from": "U068", "to": "B053"}, {"from": "U068", "to": "B072"}, {"from": "U069", "to": "B072"}, {"from": "U070", "to": "B017"}, {"from": "U070", "to": "B003"}, {"from": "U071", "to": "B077"}, {"from": "U071", "to": "B007"}, {"from": "U072", "to": "B006"}, {"from": "U073", "to": "B075"}, {"from": "U074", "to": "B061"}, {"from": "U075", "to": "B023"}, {"from": "U075", "to": "B047"}, {"from": "U076", "to": "B095"}, {"from": "U076", "to": "B079"}, {"from": "U076", "to": "B060"}, {"from": "U077", "to": "B002"}, {"from": "U077", "to": "B072"}, {"from": "U078", "to": "B091"}, {"from": "U078", "to": "B009"}, {"from": "U078", "to": "B086"}, {"from": "U079", "to": "B059"}, {"from": "U080", "to": "B026"}, {"from": "U080", "to": "B009"}, {"from": "U080", "to": "B013"}, {"from": "U081", "to": "B057"}, {"from": "U081", "to": "B021"}, {"from": "U081", "to": "B036"}, {"from": "U081", "to": "B032"}, {"from": "U082", "to": "B047"}, {"from": "U082", "to": "B058"}, {"from": "U082", "to": "B049"}, {"from": "U083", "to": "B092"}, {"from": "U084", "to": "B028"}, {"from": "U084", "to": "B072"}, {"from": "U084", "to": "B016"}, {"from": "U084", "to": "B012"}, {"from": "U085", "to": "B022"}, {"from": "U085", "to": "B021"}, {"from": "U085", "to": "B004"}, {"from": "U085", "to": "B032"}, {"from": "U086", "to": "B068"}, {"from": "U086", "to": "B059"}, {"from": "U086", "to": "B035"}, {"from": "U086", "to": "B081"}, {"from": "U087", "to": "B002"}, {"from": "U087", "to": "B056"}, {"from": "U087", "to": "B086"}, {"from": "U088", "to": "B097"}, {"from": "U088", "to": "B050"}, {"from": "U088", "to": "B023"}, {"from": "U089", "to": "B004"}, {"from": "U089", "to": "B033"}, {"from": "U090", "to": "B037"}, {"from": "U091", "to": "B027"}, {"from": "U092", "to": "B095"}, {"from": "U092", "to": "B092"}, {"from": "U092", "to": "B019"}, {"from": "U093", "to": "B062"}, {"from": "U093", "to": "B021"}, {"from": "U093", "to": "B057"}, {"from": "U094", "to": "B034"}, {"from": "U094", "to": "B023"}, {"from": "U094", "to": "B074"}, {"from": "U094", "to": "B075"}, {"from": "U094", "to": "B010"}, {"from": "U095", "to": "B082"}, {"from": "U096", "to": "B070"}, {"from": "U096", "to": "B071"}, {"from": "U096", "to": "B011"}, {"from": "U097", "to": "B056"}, {"from": "U097", "to": "B054"}, {"from": "U097", "to": "B097"}, {"from": "U097", "to": "B077"}, {"from": "U098", "to": "B083"}, {"from": "U098", "to": "B074"}, {"from": "U099", "to": "B012"}, {"from": "U099", "to": "B060"}, {"from": "U100", "to": "B042"}, {"from": "U100", "to": "B030"}, {"from": "U100", "to": "B100"}, {"from": "U100", "to": "B007"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
