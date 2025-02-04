@@ -7,8 +7,10 @@ from sklearn.preprocessing import OneHotEncoder, LabelEncoder, MultiLabelBinariz
 
 def load_data():
     """데이터 불러오기"""
-    badge_df = pd.read_excel("data/OpenBadge_Dataset.xlsx")
-    user_df = pd.read_excel("data/User_Dataset.xlsx")
+    #badge_df = pd.read_excel("data/OpenBadge_Dataset.xlsx")
+    #user_df = pd.read_excel("data/User_Dataset.xlsx")
+    badge_df = pd.read_excel("data/Badge_dataset_GPT.xlsx")
+    user_df = pd.read_excel("data/User_dataset_GPT.xlsx")
     return badge_df, user_df
 
 def create_graph_edges(user_df, badge_df):
