@@ -1,10 +1,17 @@
 import pandas as pd
 from pyvis.network import Network
 
-# 데이터 로드
-user_file_path = "data/user_dataset_updated.xlsx"
-badge_file_path = "data/badge_dataset_updated.xlsx"
-relationship_file_path = "data/relationship_dataset_updated.xlsx"
+# 오리지널 데이터 로드  (10개 데이터)
+#user_file_path = "data/user_dataset_updated.xlsx"
+#badge_file_path = "data/badge_dataset_updated.xlsx"
+#relationship_file_path = "data/relationship_dataset_updated.xlsx"
+
+
+# 증강 데이터 로드 오리지널 (1000개 데이터)
+user_file_path = "data/augmented_user_dataset.xlsx"
+badge_file_path = "data/augmented_badge_dataset.xlsx"
+relationship_file_path = "data/augmented_relationship_dataset.xlsx"
+
 
 user_df = pd.read_excel(user_file_path, engine='openpyxl')
 badge_df = pd.read_excel(badge_file_path, engine='openpyxl')
