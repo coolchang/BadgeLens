@@ -1,0 +1,34 @@
+[
+    {
+        "badge_id": "B001",
+        "issuer_features": ["issuer_AWS", "issuer_Coursera"],
+        "skills_features": ["AWS", "Python", "Machine Learning"],
+        "goals_features": ["AI Researcher", "Data Scientist"],
+        "badge_name_tfidf_features": ["ai", "data", "science"],
+        "description_tfidf_features": ["advanced", "machine", "learning"]
+    },
+    {
+        "badge_id": "B002",
+        "issuer_features": ["issuer_Google", "issuer_Udacity"],
+        "skills_features": ["Data Engineering", "Python", "SQL"],
+        "goals_features": ["Data Engineer", "Cloud Engineer"],
+        "badge_name_tfidf_features": ["data", "python", "cloud"],
+        "description_tfidf_features": ["beginner", "cloud", "computing"]
+    },
+    {
+        "badge_id": "B003",
+        "issuer_features": ["issuer_DeepLearning.AI", "issuer_Google"],
+        "skills_features": ["Neural Networks", "TensorFlow", "AI"],
+        "goals_features": ["Machine Learning Engineer", "AI Researcher"],
+        "badge_name_tfidf_features": ["ai", "deep", "learning"],
+        "description_tfidf_features": ["advanced", "tensorflow", "neural"]
+    },
+    {
+        "badge_id": "B004",
+        "issuer_features": ["issuer_DataCamp", "issuer_Udacity"],
+        "skills_features": ["Cybersecurity", "Ethical Hacking", "Networking"],
+        "goals_features": ["Cybersecurity Analyst", "DevOps Engineer"],
+        "badge_name_tfidf_features": ["cybersecurity", "ethical", "hacking"],
+        "description_tfidf_features": ["beginner", "ethical", "hacking"]
+    }
+]
