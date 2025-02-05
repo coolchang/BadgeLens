@@ -1,0 +1,11 @@
+badge_id,badge_name,issuer,skillsValidated,relevant_goals,difficulty_level,description
+B001,Python for Data Science,Coursera,"['Python', 'Data Analysis']","['Become a Data Scientist', 'Machine Learning Engineer']",Beginner,Coursera: Intro to Python & data analysis. Beginner.
+B002,Data Analysis with Pandas,DataCamp,"['Data Analysis', 'SQL']","['Become a Data Scientist', 'Data Engineer']",Intermediate,DataCamp: Learn Pandas & SQL basics. Intermediate.
+B003,Machine Learning Foundations,Udacity,"['Machine Learning', 'Python']","['Machine Learning Engineer', 'AI Researcher']",Intermediate,Udacity: ML fundamentals with Python. Intermediate.
+B004,Deep Learning Specialization,DeepLearning.AI,"['Neural Networks', 'TensorFlow']","['Machine Learning Engineer', 'AI Researcher']",Advanced,DeepLearning.AI: Advanced neural nets & TensorFlow. Advanced.
+B005,AI Ethics and Policy,AI Policy Institute,"['AI Policy', 'Ethics']",['AI Ethics Specialist'],Advanced,AI Policy: Overview of ethics & policy in AI. Advanced.
+B006,Cloud Computing Basics,AWS,"['Cloud Computing', 'AWS']","['Cloud Engineer', 'Data Engineer']",Beginner,AWS: Intro to cloud computing. Beginner.
+B007,DevOps Foundations,Udacity,"['Kubernetes', 'CI/CD']","['DevOps Engineer', 'Cloud Engineer']",Intermediate,Udacity: Basics of DevOps with Kubernetes & CI/CD. Intermediate.
+B008,Cybersecurity Fundamentals,edX,"['Cybersecurity', 'Networking']",['Cybersecurity Analyst'],Beginner,edX: Fundamentals of cybersecurity & networking. Beginner.
+B009,Ethical Hacking Certification,Offensive Security,"['Ethical Hacking', 'Cybersecurity']","['Cybersecurity Analyst', 'DevOps Engineer']",Advanced,Offensive Security: Advanced ethical hacking techniques. Advanced.
+B010,UI/UX Design Principles,Google,"['User Research', 'Wireframing']",['UI/UX Designer'],Beginner,Google: Core UI/UX design fundamentals. Beginner.

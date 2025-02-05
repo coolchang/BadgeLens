@@ -1,0 +1,11 @@
+user_id,name,email,goal,skills,goal_required_skills,goal_matching_badges,acquired_badges
+U001,Alice,alice@example.com,Become a Data Scientist,"['Python', 'SQL']","['Machine Learning', 'Data Analysis']","['B001', 'B002', 'B003']",['B001']
+U002,Bob,bob@example.com,AI Researcher,"['Deep Learning', 'Python']","['Neural Networks', 'TensorFlow']","['B003', 'B004', 'B005']",['B003']
+U003,Charlie,charlie@example.com,Cloud Engineer,"['AWS', 'Kubernetes']","['Cloud Computing', 'DevOps']","['B006', 'B007']",['B006']
+U004,David,david@example.com,Cybersecurity Analyst,"['Networking', 'Python']","['Cybersecurity', 'Ethical Hacking']","['B008', 'B009']",['B008']
+U005,Eve,eve@example.com,Machine Learning Engineer,"['Python', 'Data Science']","['Deep Learning', 'Reinforcement Learning']","['B002', 'B003', 'B004']",['B002']
+U006,Frank,frank@example.com,DevOps Engineer,"['Linux', 'Docker']","['CI/CD', 'Kubernetes']","['B007', 'B009']",['B007']
+U007,Grace,grace@example.com,UI/UX Designer,"['Figma', 'Adobe XD']","['User Research', 'Wireframing']",['B010'],['B010']
+U008,Hank,hank@example.com,Data Engineer,"['SQL', 'Big Data']","['ETL', 'Data Pipelines']","['B002', 'B006']",['B002']
+U009,Ivy,ivy@example.com,AI Ethics Specialist,"['Ethics', 'Law']","['AI Policy', 'Regulation']",['B005'],['B005']
+U010,Jack,jack@example.com,Software Engineer,"['Java', 'C++']","['Software Development', 'OOP']",['B011'],['B011']
