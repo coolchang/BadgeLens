@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 # 데이터 불러오기
-df = pd.read_csv("data/badge_dataset.csv")
+df = pd.read_csv("data/badge_dataset_10000.csv")
 
 # 1️⃣ Label Encoding (배지 ID)
 label_encoder = LabelEncoder()

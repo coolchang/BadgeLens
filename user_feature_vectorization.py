@@ -4,7 +4,7 @@ import json
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MultiLabelBinarizer
 
 # Load the user dataset
-user_file_path = "data/user_dataset.csv"
+user_file_path = "data/user_dataset_10000.csv"
 user_df = pd.read_csv(user_file_path)
 
 # 1️⃣ Label Encoding (user_id)
@@ -51,6 +51,9 @@ vectorized_user_df = pd.DataFrame(user_feature_matrix)
 vectorized_user_df.to_csv("vectorized_user_dataset.csv", index=False, encoding='utf-8')
 
 # 🔟 Save metadata
+
+metadata_filename = "vectorized_user_dataset_metadata.json"  # 백터화된 데이터세트와 연계된 이름으로 메타데이터 저장
+
 metadata = {
     "user_id": "Label Encoded user ID",
     "goal_features": list(goal_onehot_encoder.get_feature_names_out(['goal'])),
@@ -60,7 +63,7 @@ metadata = {
     "acquired_badges_features": list(mlb_acquired_badges.classes_)
 }
 
-with open("vectorized_user_dataset_metadata.json", "w") as f:
+with open(metadata_filename, "w") as f:
     json.dump(metadata, f, indent=4)
 
 print("Vectorization complete. Saved as vectorized_user_dataset.csv and vectorized_user_dataset_metadata.json")
